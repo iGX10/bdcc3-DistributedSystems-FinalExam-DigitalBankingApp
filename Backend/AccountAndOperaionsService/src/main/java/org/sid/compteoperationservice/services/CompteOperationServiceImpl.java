@@ -39,7 +39,7 @@ public class CompteOperationServiceImpl implements CompteOperationService{
     @Override
     public void versement(double montant, Long compte_id) {
         Compte compte = compteRepository.findById(compte_id).get();
-        Operation operation = operationRepository.save(new Operation(null, new Date(), montant, "DEBIT", compte, compte.getId()));
+        Operation operation = operationRepository.save(new Operation(null, new Date(), montant, "DEBIT", compte));
         compte.setSolde(compte.getSolde()+montant);
         compte.getOperations().add(operation);
         compteRepository.save(compte);
@@ -48,7 +48,7 @@ public class CompteOperationServiceImpl implements CompteOperationService{
     @Override
     public void retrait(double montant, Long compte_id) {
         Compte compte = compteRepository.findById(compte_id).get();
-        Operation operation = operationRepository.save(new Operation(null, new Date(), montant, "CREDIT", compte, compte.getId()));
+        Operation operation = operationRepository.save(new Operation(null, new Date(), montant, "CREDIT", compte));
         compte.setSolde(compte.getSolde()-montant);
         compte.getOperations().add(operation);
         compteRepository.save(compte);
@@ -57,13 +57,13 @@ public class CompteOperationServiceImpl implements CompteOperationService{
     @Override
     public void virement(double montant, Long compte_src_id, Long compte_dest_id) {
         Compte compte_src = compteRepository.findById(compte_src_id).get();
-        Operation operation_credit = operationRepository.save(new Operation(null, new Date(), montant, "CREDIT", compte_src, compte_src.getId()));
+        Operation operation_credit = operationRepository.save(new Operation(null, new Date(), montant, "CREDIT", compte_src));
         compte_src.setSolde(compte_src.getSolde()-montant);
         compte_src.getOperations().add(operation_credit);
         compteRepository.save(compte_src);
 
         Compte compte_dest = compteRepository.findById(compte_dest_id).get();
-        Operation operation_debit = operationRepository.save(new Operation(null, new Date(), montant, "DEBIT", compte_dest, compte_dest.getId()));
+        Operation operation_debit = operationRepository.save(new Operation(null, new Date(), montant, "DEBIT", compte_dest));
         compte_dest.setSolde(compte_dest.getSolde()+montant);
         compte_dest.getOperations().add(operation_debit);
         compteRepository.save(compte_dest);
@@ -71,7 +71,7 @@ public class CompteOperationServiceImpl implements CompteOperationService{
 
     @Override
     public Collection<Operation> getOperationsByCompte(Long compte_id) {
-        return operationRepository.findByCompteId(compte_id);
+        return operationRepository.findOperationsByCompteId(compte_id);
     }
 
     @Override

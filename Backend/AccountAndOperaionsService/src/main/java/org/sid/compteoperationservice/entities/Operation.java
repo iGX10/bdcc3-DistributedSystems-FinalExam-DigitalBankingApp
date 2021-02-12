@@ -20,5 +20,4 @@ public class Operation {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne()
     private Compte compte;
-    private Long compte_id;
 }

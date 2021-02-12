@@ -8,5 +8,5 @@ import java.util.Collection;
 
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
-    public Collection<Operation> findByCompteId(Long id);
+    public Collection<Operation> findOperationsByCompteId(Long id);
 }
