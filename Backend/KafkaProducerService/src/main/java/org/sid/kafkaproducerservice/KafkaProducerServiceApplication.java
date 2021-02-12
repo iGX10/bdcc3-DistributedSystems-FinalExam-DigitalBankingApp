@@ -20,15 +20,4 @@ public class KafkaProducerServiceApplication {
         SpringApplication.run(KafkaProducerServiceApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner start(ProducerController producerController) {
-        return args -> {
-            Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
-                String topic = "OPERATIONS";
-                producerController.send(topic);
-                System.out.println("Operations sent ...");
-            }, 1000, 1000, TimeUnit.MILLISECONDS);
-        };
-    }
-
 }
