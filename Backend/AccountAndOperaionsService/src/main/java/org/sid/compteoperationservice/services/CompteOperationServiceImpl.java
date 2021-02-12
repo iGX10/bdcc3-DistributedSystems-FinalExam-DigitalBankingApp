@@ -7,6 +7,8 @@ import org.sid.compteoperationservice.models.Client;
 import org.sid.compteoperationservice.repositories.CompteRepository;
 import org.sid.compteoperationservice.repositories.OperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +72,8 @@ public class CompteOperationServiceImpl implements CompteOperationService{
     }
 
     @Override
-    public Collection<Operation> getOperationsByCompte(Long compte_id) {
-        return operationRepository.findOperationsByCompteId(compte_id);
+    public Page<Operation> getOperationsByCompte(Long compte_id, Pageable pageable) {
+        return operationRepository.findOperationsByCompteId(compte_id, pageable);
     }
 
     @Override

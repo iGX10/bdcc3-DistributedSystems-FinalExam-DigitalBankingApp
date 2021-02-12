@@ -3,6 +3,9 @@ package org.sid.compteoperationservice.web;
 import org.sid.compteoperationservice.entities.Compte;
 import org.sid.compteoperationservice.entities.Operation;
 import org.sid.compteoperationservice.services.CompteOperationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,8 +45,9 @@ public class CompteOperationRestController {
     }
 
     @GetMapping(path = "/operations/compte/{compte_id}")
-    public Collection<Operation> getOperationsByCompte(@PathVariable Long compte_id) {
-        return compteOperationService.getOperationsByCompte(compte_id);
+    public Page<Operation> getOperationsByCompte(@PathVariable Long compte_id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return compteOperationService.getOperationsByCompte(compte_id, pageable);
     }
 
     @GetMapping(path = "/comptes/client-detail/{compte_id}")
